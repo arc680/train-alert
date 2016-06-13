@@ -46,8 +46,10 @@ end
 # URL リストにある路線それぞれの運行情報を取得する
 def get_detail_traininfo(url_list=[])
   detail_traininfo = {
-    'info' => []
+    'info' => [],
+    'num' => 0
   }
+  # start of dev
   test_list = [
     'http://transit.yahoo.co.jp/traininfo/detail/21/0/',
     'http://transit.yahoo.co.jp/traininfo/detail/38/0/',
@@ -56,13 +58,13 @@ def get_detail_traininfo(url_list=[])
     'http://transit.yahoo.co.jp/traininfo/detail/133/0/',
     'http://transit.yahoo.co.jp/traininfo/detail/139/0/'
   ]
+  # end of dev
   charset = 'utf-8'
   p test_list
-  # start for dev
-  test_list.each do |url|
-    p url
-    #f2 = File.open(url)
-    #doc2 = Nokogiri::HTML(f2, nil, charset)
+  # start of dev
+  #test_list.each do |url|
+  # end of dev
+  url_list.each do |url|
     charset = nil
     html = open(url) do |f|
       charset = f.charset # 文字種別を取得
@@ -88,15 +90,9 @@ def get_detail_traininfo(url_list=[])
     }
     #p data
     detail_traininfo['info'].push(data)
-# .labelLarge h1.title # 路線名
-# .labelLarge span.subText # 更新日時
-# #mdServiceStatus dt # ステータス概要
-# #mdServiceStatus dt span # ステータスアイコン
-# icnNormalLarge 再開とか通常とか
-# icnAlertLarge 遅延〜〜〜〜〜〜〜〜〜〜〜
-# #mdServiceStatus .trouble # 詳細
   end
   
+  detail_traininfo['num'] = detail_traininfo['info'].length
   detail_traininfo.to_json
 end
 
