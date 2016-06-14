@@ -26,11 +26,11 @@ def get_list_traininfo(url)
   else
     # url のリストを作成する
     unless (statusTable = statusTrubuleLine.css('.elmTblLstLine.trouble table')).empty?
-      #statusTable.css('table a').each do |traininfo|
+      statusTable.css('table a').each do |traininfo|
       # start for dev
-      f2 = File.open('./table.html')
-      doc2 = Nokogiri::HTML(f2, nil, charset)
-      doc2.css('body table a').each do |traininfo|
+      #f2 = File.open('./table.html')
+      #doc2 = Nokogiri::HTML(f2, nil, charset)
+      #doc2.css('body table a').each do |traininfo|
       # end for dev
         traininfo_list.push(traininfo.attribute('href').text)
       end
