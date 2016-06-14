@@ -104,10 +104,15 @@ get "/" do
 end
 
 get "/api" do
-  redirect "/api/"
+  redirect "/"
 end
 
 get "/api/" do
+  redirect "/"
+end
+
+
+get "/api/traininfo" do
   # スクレイピング先のURL
   url = 'http://transit.yahoo.co.jp/traininfo/area/4/'
   list_traininfo = get_list_traininfo(url)
