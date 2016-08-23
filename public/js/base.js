@@ -31,7 +31,6 @@ var CommentBox = React.createClass({
 var CommentList = React.createClass({
   render: function() {
     var infoNodes = this.props.data.map(function (info) {
-      console.log(info);
       return (
         <Comment info={info} />
       );
@@ -67,6 +66,6 @@ var Comment = React.createClass({
 });
 
 ReactDOM.render(
-  <CommentBox url="/api/traininfo" pollInterval={2000} />,
+  <CommentBox url="/api/traininfo" pollInterval={300000} />,
   document.getElementById('content')
 );
