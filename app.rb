@@ -64,7 +64,7 @@ def get_detail_traininfo(url_list=[])
   # start of dev
   #test_list.each do |url|
   # end of dev
-  url_list.each do |url|
+  url_list.each_with_index do |url, index|
     charset = nil
     html = open(url) do |f|
       charset = f.charset # 文字種別を取得
@@ -82,6 +82,7 @@ def get_detail_traininfo(url_list=[])
       message = base.css('#mdServiceStatus .trouble').text.gsub(/(\r\n|\r|\n)/, '')
     end
     data = {
+      'index' => index,
       'name' => name,
       'date' => date,
       'status' => status,
@@ -91,7 +92,7 @@ def get_detail_traininfo(url_list=[])
     #p data
     detail_traininfo['info'].push(data)
   end
-  
+
   detail_traininfo['num'] = detail_traininfo['info'].length
   detail_traininfo.to_json
 end
@@ -115,5 +116,5 @@ get "/api/traininfo" do
   list_traininfo = get_list_traininfo(url)
   get_detail_traininfo(list_traininfo)
   # for debug
-  #'{"info":[{"name":"中d央線(快速)[東京～高尾]","date":"6月14日 12時48分更新","status":"運転状況","icon":"icnAlertLarge","message":"09:24頃、中央総武線(各停)内で発生した人身事故の影響で、現在も一部列車に遅れや運休が出ています。（6月14日 12時00分掲載）"},{"name":"中央総武線(各停)","date":"6月14日 12時46分更新","status":"運転状況","icon":"icnAlertLarge","message":"09:24頃、飯田橋駅で発生した人身事故の影響で、現在も一部列車に遅れが出ています。なお、東京メトロ東西線との直通運転を中止しています。（6月14日 12時15分掲載）"},{"name":"京成押上線","date":"6月14日 12時48分更新","status":"運転状況","icon":"icnAlertLarge","message":"08:14頃、都営浅草線内で安全確認を行った影響で、現在も列車に遅れや運休が出ています。（6月14日 09時15分掲載）"},{"name":"京急本線","date":"6月14日 12時48分更新","status":"運転状況","icon":"icnAlertLarge","message":"08:14頃、都営浅草線内で安全確認を行った影響で、現在も一部列車に遅れや運休が出ています。（6月14日 10時20分掲載）"},{"name":"京急空港線","date":"6月14日 12時48分更新","status":"運転状況","icon":"icnAlertLarge","message":"08:14頃、都営浅草線内で安全確認を行った影響で、現在も一部列車に遅れや運休が出ています。（6月14日 10時20分掲載）"},{"name":"都営浅草線","date":"6月14日 12時48分更新","status":"運転状況","icon":"icnAlertLarge","message":"08:14頃、本所吾妻橋駅で安全確認を行った影響で、現在も列車に遅れや運休が出ています。（6月14日 09時20分掲載）"},{"name":"東京メトロ東西線","date":"6月14日 12時48分更新","status":"運転状況","icon":"icnAlertLarge","message":"09:24頃、JR中央総武線(各停)内で発生した人身事故の影響で、現在もJR中央総武線(各停)との直通運転を中止しています。（6月14日 11時00分掲載）"},{"name":"北総線","date":"6月14日 12時48分更新","status":"列車遅延","icon":"icnAlertLarge","message":"08:14頃、都営浅草線内で安全確認を行った影響で、現在も列車に遅れが出ています。（6月14日 10時00分掲載）"}],"num":8}'
+  #'{"info":[{"index":0,"name":"埼京川越線[大崎～川越]","date":"8月24日 14時44分更新","status":"運転見合わせ","icon":"icnAlertLarge","message":"日進～西大宮駅間で安全確認を行っている影響で、大宮～川越駅間の運転を見合わせています。（8月24日 14時10分掲載）"},{"index":1,"name":"常磐線[水戸～いわき]","date":"8月24日 14時46分更新","status":"運転状況","icon":"icnAlertLarge","message":"東海～大甕駅間で発生した線路陥没の影響で、現在も列車に遅れや運休が出ています。（8月24日 14時00分掲載）"},{"index":2,"name":"総武線(快速)[東京～千葉]","date":"8月24日 14時44分更新","status":"列車遅延","icon":"icnAlertLarge","message":"総武本線内での大雨の影響で、一部列車に遅れが出ています。（8月24日 14時30分掲載）"},{"index":3,"name":"総武本線[千葉～銚子]","date":"8月24日 14時44分更新","status":"運転見合わせ","icon":"icnAlertLarge","message":"大雨の影響で、現在も佐倉～八街駅間の運転を見合わせています。なお、振替輸送を行っています。（8月24日 13時15分掲載）"},{"index":4,"name":"成田線[我孫子～成田]","date":"8月24日 14時46分更新","status":"運転見合わせ","icon":"icnAlertLarge","message":"大雨の影響で、安食～成田駅間の運転を見合わせています。また、運転区間の列車に遅れが出ています。（8月24日 13時45分掲載）"},{"index":5,"name":"成田線[佐倉～成田空港・銚子]","date":"8月24日 14時44分更新","status":"運転見合わせ","icon":"icnAlertLarge","message":"大雨の影響で、成田～滑河駅間の運転を見合わせています。また、運転区間の列車に遅れが出ています。（8月24日 13時45分掲載）"},{"index":6,"name":"西武多摩湖線","date":"8月24日 14時44分更新","status":"運転見合わせ","icon":"icnAlertLarge","message":"8月22日、武蔵大和～西武遊園地駅間で発生した土砂流入の影響で、本日も萩山～西武遊園地駅間の運転を見合わせています。（8月24日 05時00分掲載）"},{"index":7,"name":"京成本線","date":"8月24日 14時44分更新","status":"運転再開","icon":"icnAlertLarge","message":"大雨の影響で、京成成田～成田空港駅間の運転を見合わせていましたが、14:40現在、運転を再開しています。なお、列車に遅れや運休が出ています。（8月24日 14時40分掲載）"},{"index":8,"name":"京成東成田線","date":"8月24日 14時46分更新","status":"運転見合わせ","icon":"icnAlertLarge","message":"大雨の影響で、運転を見合わせています。（8月24日 14時20分掲載）"},{"index":9,"name":"芝山鉄道線","date":"8月24日 14時46分更新","status":"交通障害情報","icon":"icnAlertLarge","message":"24日14:20現在、芝山鉄道線は、大雨の影響で、運転を見合わせています。（8月24日 14時20分掲載）"},{"index":10,"name":"成田スカイアクセス","date":"8月24日 14時46分更新","status":"運転再開","icon":"icnAlertLarge","message":"大雨の影響で、空港第2ビル～成田空港駅間の運転を見合わせていましたが、14:40現在、運転を再開しています。なお、列車に遅れや運休が出ています。（8月24日 14時40分掲載）"}],"num":11}'
 end

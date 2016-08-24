@@ -1,3 +1,18 @@
+// ローディング用コンポーネント
+var Loader = React.createClass({
+  render: function() {
+    //loadingプロパティにより処理分け
+    if (this.props.isActive) {
+      return (
+        //ローディングアイコン
+        <i className="fa fa-refresh fa-spin fa-5x"></i>
+      );
+    } else {
+      return null;
+    }
+  }
+});
+
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
     $.ajax({
@@ -5,7 +20,10 @@ var CommentBox = React.createClass({
       dataType: 'json',
       cache: false,
       success: function(data) {
-        this.setState({data: data.info});
+        this.setState({
+          loading: false,
+          data: data.info
+        });
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -13,7 +31,18 @@ var CommentBox = React.createClass({
     });
   },
   getInitialState: function() {
-    return {data: []};
+    return {
+      loading: true,
+      data: [
+        {
+          index: 0,
+          name: '',
+          date: '',
+          status: '',
+          message: ''
+        }
+      ]
+    };
   },
   componentDidMount: function() {
     this.loadCommentsFromServer();
@@ -22,6 +51,7 @@ var CommentBox = React.createClass({
   render: function() {
     return (
       <div className="commentBox">
+        <Loader isActive={this.state.loading} />
         <CommentList data={this.state.data} />
       </div>
     );
@@ -29,16 +59,33 @@ var CommentBox = React.createClass({
 });
 
 var CommentList = React.createClass({
+  getInitialState() {
+    return {
+      count: 0
+    };
+  },
+  nextInfo() {
+    this.setState({ count: (this.state.count + 1) % this.props.data.length});
+    this.setState({ target: [this.props.data[this.state.count]]});
+  },
+  componentDidMount: function() {
+    this.nextInfo();
+    setInterval(this.nextInfo, 10000);
+  },
   render: function() {
-    var infoNodes = this.props.data.map(function (info) {
-      return (
-        <Comment info={info} />
-      );
+    var infoNodes = [];
+    var index = this.state.count;
+    this.props.data.forEach(function (info) {
+      if (info.index == index) {
+        infoNodes.push(<Comment info={info} />);
+      }
     });
+
     return (
       <div className="infoList">
         {infoNodes}
       </div>
+
     );
   }
 });
