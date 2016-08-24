@@ -49,21 +49,7 @@ def get_detail_traininfo(url_list=[])
     'info' => [],
     'num' => 0
   }
-  # start of dev
-  test_list = [
-    'http://transit.yahoo.co.jp/traininfo/detail/21/0/',
-    'http://transit.yahoo.co.jp/traininfo/detail/38/0/',
-    'http://transit.yahoo.co.jp/traininfo/detail/40/0/',
-    'http://transit.yahoo.co.jp/traininfo/detail/86/0/',
-    'http://transit.yahoo.co.jp/traininfo/detail/133/0/',
-    'http://transit.yahoo.co.jp/traininfo/detail/139/0/'
-  ]
-  # end of dev
-  charset = 'utf-8'
-  #p test_list
-  # start of dev
-  #test_list.each do |url|
-  # end of dev
+
   url_list.each_with_index do |url, index|
     charset = nil
     html = open(url) do |f|
